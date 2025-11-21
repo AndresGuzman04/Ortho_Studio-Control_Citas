@@ -45,7 +45,6 @@
                                             <th>Apellido</th>
                                             <th>Direccion</th>
                                             <th>Telefono</th>
-                                            <th>Email</th>
                                             <th>Dui</th>
                                             <th>Estado</th>
                                             <th>Acciones</th>
@@ -65,9 +64,6 @@
                                             </td>
                                             <td>
                                                 {{$paciente->telefono}}
-                                            </td>
-                                            <td>
-                                                {{$paciente->email}}
                                             </td>
                                             <td>
                                                 {{$paciente->numero_documento}}

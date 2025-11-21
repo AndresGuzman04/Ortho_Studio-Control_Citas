@@ -16,6 +16,16 @@
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <style>
+        .sidebar {
+            width: 10rem !important;   /* Cambia 260px al ancho que quieras */
+        }
+
+        .sidebar .nav-item .nav-link {
+            white-space: normal; /* para que no se corte el texto si es muy largo */
+        }
+    </style>
+
     @stack('css-datatable')
     
     

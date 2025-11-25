@@ -22,7 +22,6 @@ return new class extends Migration
             // Relación con empleado (única y opcional)
             $table->foreignId('empleado_id')
                 ->nullable()
-                ->unique()
                 ->constrained('empleados')
                 ->nullOnDelete();
 

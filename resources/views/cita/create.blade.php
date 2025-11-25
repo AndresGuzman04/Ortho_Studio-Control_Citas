@@ -38,20 +38,8 @@
                     </div>
 
                     <!-- Empleado (opcional) -->
-                    <div class="col-md-6">
-                        <label for="empleado_id" class="form-label">Empleado</label>
-                        <select name="empleado_id" id="empleado_id" class="form-control">
-                            <option value="">-- Seleccione --</option>
-                            @foreach($empleados as $empleado)
-                                <option value="{{ $empleado->id }}" {{ old('empleado_id') == $empleado->id ? 'selected' : '' }}>
-                                    {{ $empleado->nombre }} {{ $empleado->apellido }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('empleado_id')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
+                    <input hidden type="number" name="empleado_id" id="empleado_id"  
+                               value="{{ auth()->user()->empleado_id }}" >
 
                     <!-- Fecha y hora -->
                     <div class="col-md-6">
@@ -73,17 +61,11 @@
                     </div>
 
                     <!-- Estado -->
-                    <div class="col-md-6">
-                        <label for="estado" class="form-label">Estado</label>
-                        <select name="estado" id="estado" class="form-control" required>
-                            <option value="pendiente" {{ old('estado') == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
-                            <option value="confirmada" {{ old('estado') == 'confirmada' ? 'selected' : '' }}>Confirmada</option>
-                            <option value="cancelada" {{ old('estado') == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
+                        <select hidden name="estado" id="estado" class="form-control" required>
+                            <option value="pendiente" selected >Pendiente</option>
+                            <option value="confirmada" >Confirmada</option>
+                            <option value="cancelada" >Cancelada</option>
                         </select>
-                        @error('estado')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
 
                 </div>
             </div>

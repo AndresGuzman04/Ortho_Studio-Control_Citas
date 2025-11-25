@@ -44,9 +44,11 @@
                         <select name="empleado_id" id="empleado_id" class="form-control">
                             <option value="">-- Seleccione --</option>
                             @foreach($empleados as $empleado)
-                                <option value="{{ $empleado->id }}" {{ old('empleado_id', $cita->empleado_id) == $empleado->id ? 'selected' : '' }}>
-                                    {{ $empleado->nombre }} {{ $empleado->apellido }}
+                                <option value="{{ $empleado->id }}" 
+                                    {{ old('empleado_id', $cita->empleado_id) == $empleado->id ? 'selected' : '' }}>
+                                    {{ $empleado->razon_social }} | {{ $empleado->cargo }}
                                 </option>
+
                             @endforeach
                         </select>
                         @error('empleado_id')

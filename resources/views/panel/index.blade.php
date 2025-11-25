@@ -3,12 +3,33 @@
 @section('title','Panel')
 
 @push('css')
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
 <div class="container-fluid">
 
+@if (session('success'))
+<script>
+    Swal.fire({
+    title: "{{ session('success') }}",
+    showClass: {
+        popup: `
+        animate__animated
+        animate__fadeInUp
+        animate__faster
+        `
+    },
+    hideClass: {
+        popup: `
+        animate__animated
+        animate__fadeOutDown
+        animate__faster
+        `
+    }
+    });
+</script>
+@endif
                     <!-- Content Row -->
                     <div class="row">
 

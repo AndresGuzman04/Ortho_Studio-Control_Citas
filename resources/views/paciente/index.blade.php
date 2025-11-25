@@ -148,6 +148,14 @@
     var myModal = new bootstrap.Modal(document.getElementById('verModal-create'));
     myModal.show();
 </script>
+
+<script>
+
+<!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+
+</script>
+
 @endif
 
 @endpush

@@ -3,7 +3,13 @@
 @section('title', 'Crear Cita')
 
 @push('css')
-<!-- Aquí puedes agregar CSS adicional si es necesario -->
+    <style>
+        /* Para marcar opciones no seleccionables */
+    .hora-ocupada {
+        color: red !important;
+        font-weight: bold;
+    }
+    </style>
 @endpush
 
 @section('content')
@@ -38,10 +44,10 @@
                     </div>
 
                     <!-- Empleado (opcional) -->
-                    <input hidden type="number" name="empleado_id" id="empleado_id"  
-                               value="{{ auth()->user()->empleado_id }}" >
+                    <input hidden type="number" name="user_id" id="user_id"  
+                               value="{{ auth()->user()->user_id }}" >
 
-                    <!-- Fecha y hora -->
+                    <!-- Fecha y hora
                     <div class="col-md-6">
                         <label for="fecha_hora" class="form-label">Fecha y Hora</label>
                         <input type="datetime-local" name="fecha_hora" id="fecha_hora" class="form-control" 
@@ -49,10 +55,28 @@
                         @error('fecha_hora')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
+                    </div>-->
+
+                    <!-- FECHA -->
+                    <div class="col-md-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" name="fecha" id="fecha" class="form-control" required>
                     </div>
 
+                    <!-- HORAS DISPONIBLES -->
+                    <div class="col-md-3">
+                        <label for="hora" class="form-label">Hora</label>
+                        <select id="hora" name="hora" class="form-control" required>
+                            <option value="">Seleccione una fecha...</option>
+                        </select>
+                    </div>
+
+                    @error('fecha_hora')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+
                     <!-- Motivo -->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="motivo" class="form-label">Motivo</label>
                         <textarea name="motivo" id="motivo" class="form-control">{{ old('motivo') }}</textarea>
                         @error('motivo')
@@ -80,5 +104,62 @@
 @endsection
 
 @push('js')
-<!-- Aquí puedes poner JS adicional si lo necesitas -->
+<script>
+// Citas enviadas desde Laravel (sin rutas, sin AJAX)
+    let citas = @json($citas_json);
+document.getElementById("fecha").addEventListener("change", function () {
+
+    const fecha = this.value;
+    if (!fecha) return;
+
+    const [year, month, day] = fecha.split("-");
+
+    // Normalizamos la fecha seleccionada a "YYYY-MM-DD"
+    const fechaSeleccionada = `${year}-${month}-${day}`;
+
+    // Buscar las citas de ese día
+    const ocupadas = citas
+        .filter(c => {
+            const fechaCita = `${c.year}-${String(c.month).padStart(2, "0")}-${String(c.day).padStart(2, "0")}`;
+            return fechaCita === fechaSeleccionada;
+        })
+        .map(c => c.hour);
+
+    console.log("Horas ocupadas:", ocupadas);
+
+    const ocupadasSet = new Set(ocupadas);
+
+    // Generar horas en intervalos de 20 minutos
+    const todasLasHoras = [];
+    let inicio = 7 * 60;
+    let fin = 17 * 60;
+
+    for (let min = inicio; min <= fin; min += 20) {
+        const h = String(Math.floor(min / 60)).padStart(2, "0");
+        const m = String(min % 60).padStart(2, "0");
+        todasLasHoras.push(`${h}:${m}`);
+    }
+
+    const select = document.getElementById("hora");
+    select.innerHTML = `<option value="">Seleccione una hora...</option>`;
+
+    todasLasHoras.forEach(hora => {
+        const option = document.createElement("option");
+        option.textContent = hora;
+
+        if (ocupadasSet.has(hora)) {
+            option.disabled = true;
+            option.classList.add("hora-ocupada");
+            option.style.color = "red";
+        } else {
+            option.value = hora;
+        }
+
+        select.appendChild(option);
+    });  
+
+});
+
+
+</script>
 @endpush

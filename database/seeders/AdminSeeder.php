@@ -2,36 +2,42 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Empleado;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // 1. Crear o recuperar el empleado administrador
-        $empleado = Empleado::firstOrCreate(
-            ['razon_social' => 'ADMINISTRADOR GENERAL'],
+
+
+        // 2. Crear o recuperar el usuario administrador
+        $user = User::firstOrCreate(
+            ['email' => 'admin@gmail.com'],
             [
-                'cargo' => 'Administrador',
-                'img_path' => null,
+                'name' => 'ORTHOSTUDIO',
+                'Puesto' => 'Administrador',
+                'password' => bcrypt('admin'),
+                'estado' => 1,
             ]
         );
 
-        // 2. Crear o recuperar el usuario administrador
-        User::firstOrCreate(
-            ['email' => 'admin@gmail.com'],  // clave de búsqueda
-            [
-                'name' => 'ORTHOSTUDIO',
-                'password' => bcrypt('admin'),
-                'estado' => 1,
-                'empleado_id' => $empleado->id, // relación
-            ]
+        // 3. Rol administrador (seguro)
+        $rol = Role::firstOrCreate(
+            ['name' => 'administrador', 'guard_name' => 'web']
         );
+
+        // 4. Obtener todos los permisos con guard web
+        $permisos = Permission::where('guard_name', 'web')->get();
+
+        // 5. Asignar permisos al rol
+        $rol->syncPermissions($permisos);
+
+        // 6. Asignar rol al usuario
+        if (!$user->hasRole($rol->name)) {
+            $user->assignRole($rol->name);
+        }
     }
 }

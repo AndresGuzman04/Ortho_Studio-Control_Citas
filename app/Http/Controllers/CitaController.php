@@ -6,11 +6,10 @@ use App\Models\Cita;
 use App\Http\Requests\StoreCitaRequest;
 use App\Http\Requests\UpdateCitaRequest;
 use App\Models\Paciente;
-use App\Models\Empleado;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Exception;
-
-
+use Illuminate\Http\Request;
 
 class CitaController extends Controller
 {
@@ -20,14 +19,14 @@ class CitaController extends Controller
     public function index()
     {
         //
-        $citas = Cita::with(['paciente', 'empleado'])->latest()->get();
-
+        $citas = Cita::with(['paciente', 'user'])->latest()->get();
+        //dd($citas);
         $citas_json = $citas->map(function($cita) {
             return [
                 'id' => $cita->id,
                 'paciente_id' => $cita->paciente_id,
                 'paciente' => $cita->paciente?->nombre . ' ' . $cita->paciente?->apellido ?? 'Sin nombre',
-                'empleado_id' => $cita->empleado_id,
+                'empleado_id' => $cita->user_id ?? 1,
                 'motivo' => $cita->motivo,
                 'estado' => $cita->estado,
                 'year' => $cita->fecha_hora->year,
@@ -36,9 +35,10 @@ class CitaController extends Controller
                 'hour' => $cita->fecha_hora->format('H:i')
             ];
         });
-
+        //dd($citas_json);
         return view('cita.calendar', compact('citas_json'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -46,9 +46,21 @@ class CitaController extends Controller
     public function create()
     {
         //
+        $citas = Cita::with(['paciente', 'user'])->latest()->get();
+        //dd($citas);
+        $citas_json = $citas->map(function($cita) {
+            return [
+                'id' => $cita->id,
+                'year' => $cita->fecha_hora->format('Y'),
+                'month' => $cita->fecha_hora->format('m'),
+                'day' => $cita->fecha_hora->format('d'),
+                'hour' => $cita->fecha_hora->format('H:i'),
+            ];
+        });
+
         $pacientes = Paciente::all();
-        $empleados = Empleado::all();
-        return view('cita.create', compact('pacientes', 'empleados'));
+        $users = User::all();
+        return view('cita.create', compact('pacientes', 'users', 'citas_json'));
     }
 
     /**
@@ -56,6 +68,7 @@ class CitaController extends Controller
      */
     public function store(StoreCitaRequest $request)
     {
+        
         try {
             DB::beginTransaction();
 
@@ -93,8 +106,8 @@ class CitaController extends Controller
     {
         //
         $pacientes = Paciente::all();
-        $empleados = Empleado::all();
-        return view('cita.edit', compact('cita', 'pacientes', 'empleados'));
+        $users = User::all();
+        return view('cita.edit', compact('cita', 'pacientes', 'users'));
     }
 
     /**
@@ -117,7 +130,7 @@ class CitaController extends Controller
             DB::rollBack();
 
             // Opcional: Registrar el error completo en los logs de Laravel
-            Log::error('Error al actualizar la cita: ' . $e->getMessage(), ['exception' => $e]);
+            //Log::error('Error al actualizar la cita: ' . $e->getMessage(), ['exception' => $e]);
 
             return back()->withErrors('Error al actualizar la cita. Por favor, intente de nuevo.')
                         ->withInput();
@@ -138,7 +151,7 @@ class CitaController extends Controller
 
         } catch (Exception $e) {
              // Opcional: Registrar el error completo en los logs de Laravel
-            Log::error('Error al eliminar la cita: ' . $e->getMessage(), ['exception' => $e]);
+            //Log::error('Error al eliminar la cita: ' . $e->getMessage(), ['exception' => $e]);
 
             return back()->withErrors('Error al eliminar la cita. Por favor, intente de nuevo.');
         }

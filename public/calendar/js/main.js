@@ -249,6 +249,7 @@ function show_events(events, month, day) {
                 <div><strong>Motivo:</strong> ${event.motivo ?? 'N/A'}</div>
                 <div><strong>Estado:</strong> ${estadoBadge}</div>
                 <div><strong>Hora:</strong> ${event.hour}</div>
+                <div><strong>Fecha:</strong> ${event.year+'/'+event.month+'/'+event.day}</div>
                 ${botones}
             </div>
         `);

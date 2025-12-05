@@ -11,7 +11,7 @@ class Cita extends Model
     use HasFactory;
     protected $fillable = [
         'paciente_id',
-        'empleado_id',
+        'user_id',
         'fecha_hora',
         'motivo',
         'estado'
@@ -29,8 +29,8 @@ class Cita extends Model
     }
 
     // Relación con Empleado
-    public function empleado()
+    public function user()
     {
-        return $this->belongsTo(Empleado::class);
+        return $this->belongsTo(User::class);
     }
 }

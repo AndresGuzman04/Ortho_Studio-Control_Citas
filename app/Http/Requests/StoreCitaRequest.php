@@ -14,6 +14,19 @@ class StoreCitaRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->fecha && $this->hora) {
+            // Asegurar que la hora tenga ":00" al final
+            $hora = strlen($this->hora) === 5 ? $this->hora . ':00' : $this->hora;
+
+            $this->merge([
+                'fecha_hora' => $this->fecha . ' ' . $hora,
+            ]);
+        }
+    }
+
+
     /**
      * Get the validation rules that apply to the request.
      *

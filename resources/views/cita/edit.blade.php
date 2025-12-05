@@ -38,24 +38,6 @@
                         @enderror
                     </div>
 
-                    <!-- Empleado -->
-                    <div class="col-md-6">
-                        <label for="empleado_id" class="form-label">Empleado</label>
-                        <select name="empleado_id" id="empleado_id" class="form-control">
-                            <option value="">-- Seleccione --</option>
-                            @foreach($empleados as $empleado)
-                                <option value="{{ $empleado->id }}" 
-                                    {{ old('empleado_id', $cita->empleado_id) == $empleado->id ? 'selected' : '' }}>
-                                    {{ $empleado->razon_social }} | {{ $empleado->cargo }}
-                                </option>
-
-                            @endforeach
-                        </select>
-                        @error('empleado_id')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
                     <!-- Fecha y hora -->
                     <div class="col-md-6">
                         <label for="fecha_hora" class="form-label">Fecha y Hora</label>

@@ -16,14 +16,9 @@ return new class extends Migration
             
             // Datos básicos
             $table->string('name', 100);
+            $table->string('puesto', 100);
             $table->string('email')->unique();
             $table->string('password');
-
-            // Relación con empleado (única y opcional)
-            $table->foreignId('empleado_id')
-                ->nullable()
-                ->constrained('empleados')
-                ->nullOnDelete();
 
             // Campos de control
             $table->tinyInteger('estado')->default(1); // 1=activo, 0=inactivo

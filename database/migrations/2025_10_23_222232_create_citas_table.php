@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('citas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('paciente_id')->constrained('pacientes')->cascadeOnDelete();
-            $table->foreignId('empleado_id')->nullable()->constrained('empleados')->nullOnDelete(); // médico o recepcionista
+            $table->foreignId('user_id')
+            ->nullable()
+            ->constrained('users')  // ✔ tabla correcta
+            ->nullOnDelete(); // médico o recepcionista
             $table->dateTime('fecha_hora');
             $table->text('motivo')->nullable();
             $table->enum('estado', ['pendiente', 'confirmada', 'cancelada'])->default('pendiente');

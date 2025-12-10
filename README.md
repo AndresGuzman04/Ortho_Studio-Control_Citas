@@ -89,7 +89,7 @@ php artisan key:generate
 
 ```
 
--  Ingrese al administrador de [PHP MyAdmin](http://localhost/phpmyadmin/) y cree una nueva base de datos, el nombre es opcional, pero por defecto nombrarla **dbsistemaventas**
+- (Solo si el paso siguiente genera error) Ingrese al administrador de [PHP MyAdmin](http://localhost/phpmyadmin/) y cree una nueva base de datos, el nombre es opcional, pero por defecto nombrarla **ortho_studio**
 
   
 

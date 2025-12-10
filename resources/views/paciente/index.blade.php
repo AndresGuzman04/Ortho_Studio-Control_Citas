@@ -24,18 +24,17 @@
                             </ol>
                         </nav>
 
+                        @can('crear-paciente')
                         <div class="mb-4">
                         <a href="{{ route('pacientes.create') }}"><button class="btn btn-primary">Añadir Paciente</button></a>
                         </div>
+                        @endcan
 
-                        <div class="mb-4">
-                        <a href=""><button class="btn btn-primary">Generar Reporte General</button></a>
-                        </div>
 
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                DataTable Example
+                                Pacientges
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple" class="table table-striped">
@@ -46,7 +45,7 @@
                                             <th>Direccion</th>
                                             <th>Telefono</th>
                                             <th>Dui</th>
-                                            <th>Estado</th>
+                                            <th></th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -68,43 +67,42 @@
                                             <td>
                                                 {{$paciente->numero_documento}}
                                             </td>
-                                            <td>
+                                            <td style="padding: 0">
                                                 <div class="container" style="font-size: small;">
                                                     @if ($paciente->estado == 1)
                                                     <div class="row">
-                                                        <span  class="m-1 rounded-pill p-1 bg-success text-white text-center">Activo</span>
+                                                        <span  class="">🟢</span>
                                                     </div>
                                                     @else
                                                     <div class="row">
-                                                        <span  class="m-1 rounded-pill p-1 bg-danger text-white text-center">Eliminado</span>
+                                                        <span  class="">🔴</span>
                                                     </div>
                                                     @endif
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td style="padding: 8px 0px">
+                                                @can('editar-paciente')
                                                 <!-- Botón de Editar -->
                                                 <form action="{{ route('pacientes.edit', ['paciente' => $paciente]) }}" method="get" class="d-inline">
-                                                    <button style="width: 31%; height: 35px;" type="submit" class="btn btn-secondary btn-sm">
+                                                    <button style="width: 2rem; height: 35px;" type="submit" class="btn btn-secondary btn-sm">
                                                         <i class="fas fa-edit" style="font-size: 18px; color: white;"></i> <!-- Icono de edición -->
                                                     </button>
                                                 </form>
+                                                @endcan
 
-                                                <a href="" >
-                                                    <button style="width: 31%; height: 35px;" type="button" class="btn btn-success btn-sm" >
-                                                        <i class="fas fa-file-pdf" style="font-size: 18px; color: white;"></i> <!-- Icono de PDF -->
-                                                </button> 
-                                                </a>
 
+                                                @can('eliminar-paciente')
                                                 <!-- Botón de Eliminar o Restaurar -->
                                                 @if ($paciente->estado == 1)
-                                                    <button style="width: 31%; height: 35px;" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$paciente->id}}">
+                                                    <button style="width: 2rem; height: 35px;" type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$paciente->id}}">
                                                         <i class="fas fa-trash" style="font-size: 18px;"></i> <!-- Icono de papelera -->
                                                     </button>
                                                 @else
-                                                    <button style="width: 31%; height: 35px;" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$paciente->id}}">
+                                                    <button style="width: 2rem; height: 35px;" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$paciente->id}}">
                                                         <i class="fas fa-undo" style="font-size: 18px;"></i> <!-- Icono de restaurar -->
                                                     </button>
                                                 @endif
+                                                @endcan
                                             </td>
                                             
                                             </tr>

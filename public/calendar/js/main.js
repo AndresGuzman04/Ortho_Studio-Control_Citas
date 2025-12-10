@@ -199,23 +199,28 @@ function show_events(events, month, day) {
         // Botones con modal
         let botones = `
             <div class="d-flex gap-1 mt-2">
-                <form action="/citas/${event.id}/edit" method="get" class="d-inline mr-1" style="width: 30%;">
+                ${permisos.editar ? `
+                <form action="/citas/${event.id}/edit" method="get" class="d-inline" style="width: 30%;">
                     <button type="submit" class="btn btn-secondary btn-sm w-100 h-100">
                         <i class="fas fa-edit"></i>
                     </button>
                 </form>
+                ` : ''}
 
-                <a href="/citas/${event.id}/pdf" style="width: 30%;" class="mr-1">
+                ${permisos.pdf ? `
+                <a href="/citas/${event.id}/pdf" style="width: 30%;">
                     <button type="button" class="btn btn-success btn-sm w-100 h-100">
                         <i class="fas fa-file-pdf"></i>
                     </button>
                 </a>
+                ` : ''}
 
-                <button type="button" style="width: 30%;" class="btn btn-danger btn-sm w-30" 
+                ${permisos.eliminar ? `
+                <button style="width: 30%;" type="button" class="btn btn-danger btn-sm" 
                     data-bs-toggle="modal" data-bs-target="#confirmModal-${event.id}">
                     <i class="fas fa-trash"></i>
                 </button>
-            </div>
+                ` : ''}
 
             <!-- Modal -->
             <div class="modal fade" id="confirmModal-${event.id}" tabindex="-1" aria-labelledby="confirmModalLabel-${event.id}" aria-hidden="true">

@@ -9,10 +9,20 @@ use App\Models\Paciente;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Exception;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CitaController extends Controller
 {
+
+    public function __construct()
+{
+    $this->middleware ('permission:ver-citas|crear-cita|editar-cita|eliminar-cita|restaurar-cita', ['only' => ['index']]);
+    $this->middleware('permission:crear-cita', ['only' => ['create', 'store']]);
+    $this->middleware('permission:editar-cita', ['only' => ['edit', 'update']]);
+    $this->middleware('permission:eliminar-cita', ['only' => ['destroy']]);
+}
+
+
     /**
      * Display a listing of the resource.
      */

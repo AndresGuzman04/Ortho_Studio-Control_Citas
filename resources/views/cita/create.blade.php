@@ -33,9 +33,11 @@
                         <select name="paciente_id" id="paciente_id" class="form-control" required>
                             <option value="">-- Seleccione --</option>
                             @foreach($pacientes as $paciente)
-                                <option value="{{ $paciente->id }}" {{ old('paciente_id') == $paciente->id ? 'selected' : '' }}>
-                                    {{ $paciente->nombre }} {{ $paciente->apellido }}
-                                </option>
+                                 @if($paciente->estado == 1)
+                                    <option value="{{ $paciente->id }}" {{ old('paciente_id') == $paciente->id ? 'selected' : '' }}>
+                                        {{ $paciente->nombre }} {{ $paciente->apellido }}
+                                    </option>
+                                @endif
                             @endforeach
                         </select>
                         @error('paciente_id')

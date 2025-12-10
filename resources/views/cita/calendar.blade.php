@@ -73,12 +73,47 @@
 				          </table>
 				        </div> 
 						<div class="mb-4 d-flex gap-2">
+							@can('crear-cita')
 							<a href="{{ route('citas.create') }}">
 								<button class="btn mr-3 btn-primary">Añadir Cita</button>
 							</a>
-							<a href="#">
-								<button class="btn btn-primary">Generar Reporte General</button>
-							</a>
+							@endcan
+							@can('generar-reportes')
+							<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalReporte">
+								Generar Reporte General
+							</button>
+							@endcan
+
+							<!-- Modal -->
+							<div class="modal fade" id="modalReporte" tabindex="-1">
+							<div class="modal-dialog">
+								<form action="{{ route('reporte.citas') }}" method="POST" target="_blank">
+									@csrf
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">Generar Reporte de Citas</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+										</div>
+
+										<div class="modal-body">
+											<label>Fecha Inicio</label>
+											<input type="date" name="fecha_inicio" class="form-control" required>
+
+											<label class="mt-2">Fecha Final</label>
+											<input type="date" name="fecha_fin" class="form-control" required>
+
+											<input type="hidden" name="citas_json" value="{{ json_encode($citas_json) }}">
+										</div>
+
+										<div class="modal-footer">
+											<button class="btn btn-success">Generar PDF</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							</div>
+
+
 						</div>
 				      </div>
 				    </div>
@@ -103,7 +138,14 @@
 </script>
 @endif
 
+
 <script>
+	const permisos = {
+        editar: @json(auth()->user()->can('editar-cita')),
+        eliminar: @json(auth()->user()->can('eliminar-cita')),
+        pdf: @json(auth()->user()->can('generar-reportes'))
+    };
+
     var event_data = {
         events: @json($citas_json)
     };

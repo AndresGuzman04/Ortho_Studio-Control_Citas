@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Paciente;
 use App\Http\Requests\StorePacienteRequest;
 use App\Http\Requests\UpdatePacienteRequest;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class PacienteController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:ver-pacientes|crear-paciente|editar-paciente|eliminar-paciente|restaurar-paciente', ['only' => ['index']]);
+        $this->middleware('permission:crear-paciente', ['only' => ['create', 'store']]);
+        $this->middleware('permission:editar-paciente', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:eliminar-paciente', ['only' => ['destroy']]);
+    }
+
+
     /**
      * Display a listing of the resource.
      */

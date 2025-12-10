@@ -8,6 +8,14 @@ use App\Http\Requests\UpdateEmpresaRequest;
 
 class EmpresaController extends Controller
 {
+
+    public function __construct()
+{
+    $this->middleware('permission:ver-empresa|editar-empresa', ['only' => ['index']]);
+    $this->middleware('permission:editar-empresa', ['only' => ['edit', 'update']]);
+}
+
+
     /**
      * Display a listing of the resource.
      */

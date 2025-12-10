@@ -26,6 +26,7 @@
                 Menu
             </div>
 
+            @can('ver-pacientes')
             <!-- Nav Item - Pacientes -->
             <li class="nav-item">
                 <a class="nav-link" href="{{route('pacientes.index')}}">
@@ -33,7 +34,9 @@
                     <span>Pacientes</span>
                 </a>
             </li>
+            @endcan
 
+            @can('ver-citas')
             <!-- Nav Item - Citas -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('citas.index')}}">
@@ -41,23 +44,33 @@
                     <span>Citas</span>
                 </a>
             </li>
+            @endcan
 
+            <div class="sidebar-heading">
+                OTROS
+            </div>
+
+            @can('ver-usuarios')
             <!-- Nav Item - Usuarios -->
             <li class="nav-item">
-                <a class="nav-link" href="usuarios.html">
+                <a class="nav-link" href="{{route('users.index')}}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Usuarios</span>
                 </a>
             </li>
+            @endcan
 
+            @can('ver-roles')
             <!-- Nav Item - Roles -->
             <li class="nav-item">
-                <a class="nav-link" href="roles.html">
+                <a class="nav-link" href="{{route('roles.index')}}">
                     <i class="fas fa-fw fa-user-shield"></i>
                     <span>Roles</span>
                 </a>
             </li>
+            @endcan
 
+            @can('ver-empresa')
             <!-- Nav Item - Empresa -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('empresa.index') }}">
@@ -65,6 +78,7 @@
                     <span>Empresa</span>
                 </a>
             </li>
+            @endcan
 
 
 

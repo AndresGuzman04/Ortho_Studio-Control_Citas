@@ -125,3 +125,9 @@ php artisan queue:listen
 ```
 
   -  Ejecute el proyecto (en otra terminal)
+
+```bash
+
+php artisan serve
+
+```
